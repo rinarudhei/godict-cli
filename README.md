@@ -25,9 +25,11 @@ Clone the repo and build:
 git clone https://github.com/rinarudhei/godict-cli.git
 cd godict-cli
 go build -o godict-cli
+```
 
 Or Install directly with:
 
+```bash
 go install github.com/rinarudhei/godict-cli@latest
 ```
 
@@ -55,14 +57,14 @@ godict-cli [flags] <word>
 ### Simple response
 
 ```bash
-godict-cli hello
+godict-cli cool
 ```
 
 ```bash
-Word:     hello
-Phonetic: həˈləʊ
-Meaning:  used as a greeting or to begin a phone conversation.
-Example:  hello there, Katie!
+Word:      cool
+Phonetic:  /kuːl/
+Meaning:   A moderate or refreshing state of cold; moderate temperature of the air between hot and cold; coolness.
+Example:   in the cool of the morning
 ```
 
 

@@ -30,6 +30,7 @@ var rootCmd = &cobra.Command{
 
 		return lookAction(os.Stdout, verbose, apiURL, args[0])
 	},
+	Version: "0.0.1",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -51,6 +52,8 @@ func init() {
 	viper.BindPFlag("api-url", rootCmd.PersistentFlags().Lookup("api-url"))
 	viper.BindPFlag("api-timeout", rootCmd.PersistentFlags().Lookup("api-timeout"))
 	rootCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Verbose response")
+	versionTemplate := `{{printf "%s: %s - version %s\n" .Name .Short .Version}}`
+	rootCmd.SetVersionTemplate(versionTemplate)
 }
 
 func lookAction(out io.Writer, verbose bool, apiURL, word string) error {
