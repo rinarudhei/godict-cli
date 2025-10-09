@@ -75,7 +75,7 @@ func lookAction(out io.Writer, verbose bool, apiURL, word string) error {
 
 // printEntryNotFoundResponse prints not found message
 func printEntryNotFoundResponse(w io.Writer) error {
-	_, err := fmt.Fprintln(w, "No Definitions Found.\nSorry pal, we couldn't find definitions for the word you were looking for.\nYou can try the search again at later time or head to the web instead.\n")
+	_, err := fmt.Fprintln(w, "No Definitions Found.\nSorry pal, we couldn't find definitions for the word you were looking for.\nYou can try the search again at later time or head to the web instead.")
 	return err
 }
 

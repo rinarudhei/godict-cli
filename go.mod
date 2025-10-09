@@ -1,4 +1,4 @@
-module rinarudhei/godict-cli
+module github.com/rinarudhei/godict-cli
 
 go 1.24.4
 
