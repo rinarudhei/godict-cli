@@ -41,12 +41,13 @@ go install github.com/rinarudhei/godict-cli@latest
 godict-cli [flags] <word>
 ```
 
-## Flags 
+## Flags
 
 ```bash
 --api-timeout duration   Set API timeout in duration second (default 5ns)
 --api-url string         Free Dictionary API (default "https://api.dictionaryapi.dev/api/v2/entries/en/")
 -h, --help               Show help
+-s, --sound              Play pronunciation audio
 -v, --verbose            Verbose response (full dictionary output)
 ```
 
@@ -68,10 +69,17 @@ Example:   in the cool of the morning
 ```
 
 
-### Verbose response 
+### Verbose response
 
 ```bash
 godict-cli -v hello
+```
+
+### With audio pronunciation
+
+```bash
+godict-cli -s hello      # Play audio with simple output
+godict-cli -v -s hello   # Play audio with verbose output
 ```
 
 ```bash

@@ -9,13 +9,17 @@ import (
 	"io"
 	"os"
 	"strings"
+	"sync"
 	"text/tabwriter"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-var verbose bool
+var (
+	verbose bool
+	sound   bool
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -28,7 +32,7 @@ var rootCmd = &cobra.Command{
 		}
 		apiURL := viper.GetString("api-url")
 
-		return lookAction(os.Stdout, verbose, apiURL, args[0])
+		return lookAction(os.Stdout, verbose, sound, apiURL, args[0])
 	},
 	Version: "0.0.1",
 }
@@ -52,11 +56,12 @@ func init() {
 	viper.BindPFlag("api-url", rootCmd.PersistentFlags().Lookup("api-url"))
 	viper.BindPFlag("api-timeout", rootCmd.PersistentFlags().Lookup("api-timeout"))
 	rootCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Verbose response")
+	rootCmd.Flags().BoolVarP(&sound, "sound", "s", false, "Play pronunciation audio")
 	versionTemplate := `{{printf "%s: %s - version %s\n" .Name .Short .Version}}`
 	rootCmd.SetVersionTemplate(versionTemplate)
 }
 
-func lookAction(out io.Writer, verbose bool, apiURL, word string) error {
+func lookAction(out io.Writer, verbose, playSound bool, apiURL, word string) error {
 	resps, err := lookDictionary(apiURL, word)
 	if err != nil {
 		if errors.Is(err, ErrNotFound) {
@@ -66,11 +71,32 @@ func lookAction(out io.Writer, verbose bool, apiURL, word string) error {
 		return err
 	}
 
-	if verbose {
-		return printVerboseResponse(out, resps[0])
+	var wg sync.WaitGroup
+
+	// Play audio asynchronously if requested
+	if playSound {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			if err := playAudio(resps[0]); err != nil {
+				if errors.Is(err, ErrNoAudio) {
+					fmt.Fprintf(out, "(no audio available)\n")
+				} else {
+					fmt.Fprintf(out, "Warning: %v\n", err)
+				}
+			}
+		}()
 	}
 
-	return printSimpleResponse(out, resps[0])
+	if verbose {
+		err = printVerboseResponse(out, resps[0])
+	} else {
+		err = printSimpleResponse(out, resps[0])
+	}
+
+	wg.Wait()
+
+	return err
 }
 
 // printEntryNotFoundResponse prints not found message
