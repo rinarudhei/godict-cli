@@ -12,7 +12,8 @@ With `godict-cli`, you can quickly look up words directly in your terminal, with
 - 🔍 Look up English words from the command line  
 - 📖 Simple mode: quick definition and example  
 - 📚 Verbose mode: full dictionary-style output (phonetics, origin, synonyms, antonyms)  
-- ⚡ Fast and minimal dependencies  
+- ⚡ Fast and minimal dependencies
+- 🔈 Pronunciation audio 
 - 🌐 Uses [Free Dictionary API](https://dictionaryapi.dev/)  
 
 ---
