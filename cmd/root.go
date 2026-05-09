@@ -48,7 +48,7 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().String("api-url", "https://api.dictionaryapi.dev/api/v2/entries/en/", "Free Dictionary API")
-	rootCmd.PersistentFlags().Duration("api-timeout", 5, "Set API timeout in duration second")
+	rootCmd.PersistentFlags().Duration("api-timeout", 30, "Set API timeout in duration second")
 	replacer := strings.NewReplacer("-", "_")
 	viper.SetEnvKeyReplacer(replacer)
 	viper.SetEnvPrefix("GODICT")
